@@ -26,6 +26,7 @@ const useForm = (submitForm) => {
       [e.target.name]: e.target.value,
     });
     // console.log(values);
+    console.log(values);
   };
 
   const submitHandler = (e) => {
