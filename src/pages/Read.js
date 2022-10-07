@@ -5,6 +5,16 @@ import baseURL from "../APIs/Crud";
 
 export default function Read() {
   const [APIData, setAPIData] = useState([]);
+  const [updateVal, setUpdateVal] = useState({
+    updateId: "",
+    updateFirstname: "",
+    updateLastname: "",
+    updateUsername: "",
+    updateEmail: "",
+    updateDob: "",
+    updatePassword: "",
+    updateConfirmPassword: "",
+  });
 
   const getData = () => {
     axios.get(`${baseURL}`).then((getData) => {
@@ -16,27 +26,40 @@ export default function Read() {
     getData();
   }, [getData.data]);
 
-  const updateHandler = async (data) => {
-    const updateFirstname = prompt("First Name");
-    const updateLastname = prompt("Last Name");
-    const updateUsername = prompt("User Name");
-    const updateEmail = prompt("Email");
-    const updateDOB = prompt("DOB");
-    const updatePassword = prompt("Password");
-    const updateConfirmPassword = prompt("Confirm Password");
-    await axios
-      .put(`${baseURL}/${data.id}`, {
-        firstname: updateFirstname,
-        lastname: updateLastname,
-        username: updateUsername,
-        email: updateEmail,
-        dob: updateDOB,
-        password: updatePassword,
-        confirmpassword: updateConfirmPassword,
+  const UpdateHandler = (data) => {
+    setUpdateVal({
+      updateId: data.id,
+      updateFirstname: data.firstname,
+      updateLastname: data.lastname,
+      updateUsername: data.username,
+      updateEmail: data.email,
+      updateDob: data.dob,
+      updatePassword: data.password,
+      updateConfirmPassword: data.confirmpassword,
+    });
+  };
+
+  const changeHandler = (e) => {
+    setUpdateVal({
+      ...updateVal,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleUpdate = (updateVal) => {
+    axios
+      .put(`${baseURL}/${updateVal.updateId}`, {
+        firstname: updateVal.updateFirstname,
+        lastname: updateVal.updateLastname,
+        username: updateVal.updateUsername,
+        email: updateVal.updateEmail,
+        dob: updateVal.updateDob,
+        password: updateVal.updatePassword,
+        confirmpassword: updateVal.updateConfirmPassword,
       })
-      .then((respone) => getData(respone.data));
+      .then((response) => getData(response.data));
     alert(`Updated Successfully`);
-    console.table({ firstname: updateFirstname, lastname: updateLastname });
+    console.log(updateVal);
   };
 
   const deleteHandler = (data) => {
@@ -79,7 +102,13 @@ export default function Read() {
                   <td>{data.password}</td>
                   <td>{data.confirmpassword}</td>
                   <td>
-                    <button className="btn" onClick={() => updateHandler(data)}>
+                    <button
+                      type="button"
+                      className="btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#update"
+                      onClick={() => UpdateHandler(data)}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -95,6 +124,101 @@ export default function Read() {
                         />
                       </svg>
                     </button>
+                    <div
+                      className="modal fade"
+                      id="update"
+                      data-bs-backdrop="static"
+                      data-bs-keyboard="false"
+                      tabIndex="-1"
+                    >
+                      <div className="modal-dialog">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h1 className="modal-title fs-5">Update</h1>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <label className="form-label">Firstname: </label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="updateFirstname"
+                              value={updateVal.updateFirstname}
+                              onChange={changeHandler}
+                            />
+                            <label className="form-label">Lastname: </label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="updateLastname"
+                              value={updateVal.updateLastname}
+                              onChange={changeHandler}
+                            />
+                            <label className="form-label">Username: </label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="updateUsername"
+                              value={updateVal.updateUsername}
+                              onChange={changeHandler}
+                            />
+                            <label className="form-label">Email: </label>
+                            <input
+                              className="form-control"
+                              type="email"
+                              name="updateEmail"
+                              value={updateVal.updateEmail}
+                              onChange={changeHandler}
+                            />
+                            <label className="form-label">DOB: </label>
+                            <input
+                              className="form-control"
+                              name="updateDob"
+                              value={updateVal.updateDob}
+                              onChange={changeHandler}
+                            />
+                            <label className="form-label">Password: </label>
+                            <input
+                              className="form-control"
+                              type="password"
+                              name="updatePassword"
+                              value={updateVal.updatePassword}
+                              onChange={changeHandler}
+                            />
+                            <label className="form-label">
+                              Confirm Password:{" "}
+                            </label>
+                            <input
+                              className="form-control"
+                              type="password"
+                              name="updateConfirmPassword"
+                              value={updateVal.updateConfirmPassword}
+                              onChange={changeHandler}
+                            />
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-success"
+                              onClick={() => handleUpdate(updateVal)}
+                            >
+                              Update
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <button className="btn" onClick={() => deleteHandler(data)}>

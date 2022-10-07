@@ -27,4 +27,5 @@ const FormInputs = (props) => {
   );
 };
 
+
 export default FormInputs;

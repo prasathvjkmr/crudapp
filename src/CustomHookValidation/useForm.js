@@ -26,14 +26,13 @@ const useForm = (submitForm) => {
       [e.target.name]: e.target.value,
     });
     // console.log(values);
-    console.log(values);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
     setErrors(Validation(values));
     setDataIsCorrect(true);
-    // console.log(values);
+    console.log(values);
   };
 
   const postData = (e) => {
