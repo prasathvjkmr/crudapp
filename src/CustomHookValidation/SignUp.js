@@ -1,7 +1,7 @@
 import React from "react";
 import useForm from "./useForm";
 
-const SignUp = ({ submitForm }) => {
+const SignUp = (submitForm) => {
   const { changeHandler, submitHandler, values, errors } = useForm(submitForm);
 
   return (
@@ -84,5 +84,3 @@ const SignUp = ({ submitForm }) => {
 };
 
 export default SignUp;
-
-

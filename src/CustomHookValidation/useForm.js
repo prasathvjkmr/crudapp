@@ -35,7 +35,7 @@ const useForm = (submitForm) => {
     console.log(values);
   };
 
-  const postData = (e) => {
+  const postData = () => {
     let data = values;
     axios.post(baseURL, data).then(() => {
       console.table(values);

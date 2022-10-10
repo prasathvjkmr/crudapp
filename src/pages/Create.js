@@ -105,7 +105,7 @@ export default function Create() {
     });
   };
 
-  const postData = (e) => {
+  const postData = () => {
     let data = values;
     axios.post(baseURL, data).then(() => {
       navigate("/read");
