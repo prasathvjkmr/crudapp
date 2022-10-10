@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import baseURL from "../APIs/Crud";
+import useSortableData from "../CustomHookValidation/useSortableData";
 
 export default function Read() {
   const [APIData, setAPIData] = useState([]);
@@ -70,17 +71,40 @@ export default function Read() {
       console.table(data);
     });
   };
+
+  const { requestSort } = useSortableData(APIData);
+
   return (
     <div className="container-fluid">
       <table className="table">
         <thead>
           <tr>
             <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>User Name</th>
-            <th>Email</th>
-            <th>DOB</th>
+            <th>
+              <button type="button" onClick={() => requestSort("firstname")}>
+                First Name
+              </button>
+            </th>
+            <th>
+              <button type="button" onClick={() => requestSort("lastname")}>
+                Last Name
+              </button>
+            </th>
+            <th>
+              <button type="button" onClick={() => requestSort("username")}>
+                User Name
+              </button>
+            </th>
+            <th>
+              <button type="button" onClick={() => requestSort("email")}>
+                Email
+              </button>
+            </th>
+            <th>
+              <button type="button" onClick={() => requestSort("dob")}>
+                DOB
+              </button>
+            </th>
             <th>Password</th>
             <th>Confirm Password</th>
             <th>Update</th>

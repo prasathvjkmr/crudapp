@@ -25,14 +25,13 @@ const useForm = (submitForm) => {
       ...values,
       [e.target.name]: e.target.value,
     });
-    // console.log(values);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
     setErrors(Validation(values));
     setDataIsCorrect(true);
-    console.log(values);
+    // console.log(values);
   };
 
   const postData = () => {
@@ -45,7 +44,6 @@ const useForm = (submitForm) => {
   useEffect(() => {
     if (Object.keys(errors).length === 0 && dataIsCorrect) {
       submitForm(true);
-      // console.log(values);
       postData();
     }
   }, [errors]);

@@ -30,7 +30,6 @@ const Validation = (values) => {
   } else if (values.confirmpassword !== values.password) {
     errors.confirmpassword = "Password is not matched.";
   }
-
   return errors;
 };
 
