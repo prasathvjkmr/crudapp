@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import baseURL from "../APIs/Crud";
-import useSortableData from "../CustomHookValidation/useSortableData";
 
 export default function Read() {
   const [APIData, setAPIData] = useState([]);
@@ -72,36 +71,80 @@ export default function Read() {
     });
   };
 
-  const { requestSort } = useSortableData(APIData);
+  const [sorting, setSorting] = useState({
+    field: "name",
+    ascending: false,
+  });
+
+  const applysorting = (key, ascending) => {
+    setSorting({
+      key: key,
+      ascending: ascending,
+    });
+  };
+
+  useEffect(() => {
+    const dataCopy = [...APIData];
+
+    const sortedData = dataCopy.sort((a, b) => {
+      return a[sorting.key]
+        .toString()
+        .localeCompare(b[sorting.key].toString(), "en", { numeric: true });
+    });
+
+    setAPIData(sorting.ascending ? sortedData : sortedData.reverse());
+  }, [sorting]);
 
   return (
     <div className="container-fluid">
       <table className="table">
         <thead>
           <tr>
-            <th>Id</th>
             <th>
-              <button type="button" onClick={() => requestSort("firstname")}>
+              <button
+                type="button"
+                onClick={() => applysorting("id", !sorting.ascending)}
+              >
+                Id
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => applysorting("firstname", !sorting.ascending)}
+              >
                 First Name
               </button>
             </th>
             <th>
-              <button type="button" onClick={() => requestSort("lastname")}>
+              <button
+                type="button"
+                onClick={() => applysorting("lastname", !sorting.ascending)}
+              >
                 Last Name
               </button>
             </th>
             <th>
-              <button type="button" onClick={() => requestSort("username")}>
+              <button
+                type="button"
+                onClick={() => applysorting("username", !sorting.ascending)}
+              >
                 User Name
               </button>
             </th>
             <th>
-              <button type="button" onClick={() => requestSort("email")}>
+              <button
+                type="button"
+                onClick={() => applysorting("email", !sorting.ascending)}
+              >
                 Email
               </button>
             </th>
             <th>
-              <button type="button" onClick={() => requestSort("dob")}>
+              <button
+                type="button"
+                onClick={() => applysorting("dob", !sorting.ascending)}
+              >
                 DOB
               </button>
             </th>
