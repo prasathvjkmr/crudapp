@@ -16,7 +16,7 @@ const useSortableData = (APIData, config = null) => {
         return 0;
       });
     }
-    return console.table(sortableProducts);
+    return sortableProducts;
   }, [APIData, sortConfig]);
 
   const requestSort = (key) => {
@@ -30,7 +30,7 @@ const useSortableData = (APIData, config = null) => {
     }
     setSortConfig({ key, direction });
   };
-  return { APIData: sortedProducts, requestSort, sortConfig };
+  return { sortedProducts, requestSort, sortConfig };
 };
 
 export default useSortableData;
